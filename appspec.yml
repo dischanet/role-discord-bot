@@ -1,0 +1,12 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ec2-user/repos/role-discord-bot
+hooks:
+  AfterInstall:
+    - location: hooks/install.sh
+      timeout: 6000
+  ApplicationStart:
+    - location: hooks/start.sh
+      timeout: 6000

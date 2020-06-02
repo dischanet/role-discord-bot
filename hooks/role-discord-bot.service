@@ -1,0 +1,14 @@
+[Unit]
+Description=Role Discord Bot Agent
+After=network.target
+
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/npm run start
+WorkingDirectory=/home/ec2-user/repos/role-discord-bot
+EnvironmentFile=/home/ec2-user/repos/role-discord-bot/environment
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
