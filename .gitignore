@@ -93,3 +93,4 @@ typings/
 .vscode
 __memo__
 .cache
+dist
