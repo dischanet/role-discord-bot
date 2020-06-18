@@ -1,32 +1,27 @@
 {
-  "parserOptions": {
-    "ecmaVersion": 2018,
-    "sourceType": "module"
-  },
   "env": {
     "es6": true,
     "node": true,
     "browser": true
-  },
-  "plugins": ["@typescript-eslint"],
-  "rules": {
-    "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/member-delimiter-style": [
-      "error",
-      {
-        "multiline": {
-          "delimiter": "none"
-        },
-        "singleline": {
-          "delimiter": "comma"
-        }
-      }
-    ]
   },
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/eslint-recommended"
   ],
-  "ignorePatterns": ["docs", "node_modules/"]
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["@typescript-eslint", "unicorn", "simple-import-sort"],
+  "rules": {
+    "simple-import-sort/sort": 2,
+    "jsx-a11y/anchor-is-valid": 0,
+    "unicorn/filename-case": [
+      2,
+      { "cases": { "camelCase": true, "pascalCase": true } }
+    ],
+    "unicorn/prevent-abbreviations": 0
+  }
 }
