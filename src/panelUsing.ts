@@ -15,9 +15,9 @@ export const grantRole = async (
       panelMessageId: message.id,
     },
   })
-  if (!roleFromDb) return
+  if (!roleFromDb || !message.guild) return
   const role = await message.guild.roles.fetch(roleFromDb.roleId)
-  await member.roles.add(role)
+  if (role) await member.roles.add(role)
 }
 
 export const depriveRole = async (
@@ -33,7 +33,7 @@ export const depriveRole = async (
       panelMessageId: message.id,
     },
   })
-  if (!roleFromDb) return
+  if (!roleFromDb || !message.guild) return
   const role = await message.guild.roles.fetch(roleFromDb.roleId)
-  await member.roles.remove(role)
+  if (role) await member.roles.remove(role)
 }

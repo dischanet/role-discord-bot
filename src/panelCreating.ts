@@ -55,9 +55,9 @@ export const creatingPanel = async (message: Message): Promise<void> => {
     promises.push(
       dbRole.bulkCreate(
         roles.map((role, i) => ({
-          guildId: message.guild.id,
+          guildId: message.guild?.id,
           channelId: message.channel.id,
-          memberId: message.member.id,
+          memberId: message.member?.id,
           roleId: role.id,
           name: role.name,
           position: role.position,

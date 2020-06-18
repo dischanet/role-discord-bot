@@ -1,5 +1,5 @@
 import { Client, Permissions, User } from 'discord.js'
-import dotenv from 'dotenv'
+import { config } from 'dotenv'
 
 import { addRole, creatingPanel, removeRole } from './panelCreating'
 import { finish } from './panelCreatingFinish'
@@ -20,7 +20,11 @@ PARAMETER      TYPE           DESCRIPTION
 message        Message        The created message    */
 client.on('message', async (message) => {
   if (!message.toString().startsWith('!role')) return
-  if (!message.member.permissions.has(Permissions.FLAGS.MANAGE_ROLES)) return
+  if (
+    !message.member ||
+    !message.member.permissions.has(Permissions.FLAGS.MANAGE_ROLES)
+  )
+    return
   creatingPanel(message)
 })
 
@@ -75,5 +79,5 @@ client.on('messageReactionRemove', (messageReaction, user) => {
   depriveRole(member, message, emoji)
 })
 
-dotenv.config()
+config()
 client.login(process.env.DISCORD_BOT_TOKEN)

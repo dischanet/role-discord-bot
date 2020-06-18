@@ -7,15 +7,15 @@
   },
   "license": "MIT",
   "author": "Yusuke Hayashi <yusuke8h@gmail.com>",
+  "type": "commonjs",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "tsc -p . --outDir dist",
-    "fix": "rm -rf node_modules package-lock.json && npm run update && npm run sort && npm i && npm run fmt && npm run lint && npm build",
+    "build": "tsc",
+    "fix": "rm -rf node_modules package-lock.json && npm run sort && npm i && npm run fmt && npm run lint && npm build",
     "fmt": "prettier --write .",
     "lint": "eslint --fix --ext .ts .",
     "sort": "npx sort-package-json",
-    "start": "node ./dist/index.js",
-    "update": "npx npm-check-updates -u"
+    "start": "node ./dist/index.js"
   },
   "husky": {
     "hooks": {
@@ -46,6 +46,5 @@
     "snowpack": "^2.5.2",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.5"
-  },
-  "type": "commonjs"
+  }
 }

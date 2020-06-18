@@ -3,14 +3,18 @@ import { Emoji, Message } from 'discord.js'
 import { Manager, Role as dbRole } from './model'
 import { ALPHABET, MAX_REACTION, OK } from './utils'
 
-const split = <T>(array: T[], n = MAX_REACTION): T[][] =>
-  array.reduce(
-    (a, c, i) =>
-      i % n == 0 ? [...a, [c]] : [...a.slice(0, -1), [...a[a.length - 1], c]],
-    []
-  )
+type dbManager = {
+  id: string
+  startMessageId: string
+  creatingMessageIds: string
+}
 
-const deleteCreatingMessages = (manager, message: Message) => {
+const split = <T>(array: T[], n = MAX_REACTION): T[][] => {
+  const length = Math.ceil(array.length / n)
+  return [...new Array(length)].map((_, i) => array.slice(i * n, (i + 1) * n))
+}
+
+const deleteCreatingMessages = (manager: dbManager, message: Message) => {
   const messageIdsToDelete = [
     ...manager.creatingMessageIds.split(','),
     manager.startMessageId,
@@ -24,9 +28,12 @@ const deleteCreatingMessages = (manager, message: Message) => {
   ])
 }
 
-const createPanel = async (manager, message: Message): Promise<void> => {
+const createPanel = async (
+  manager: dbManager,
+  message: Message
+): Promise<void> => {
   const botMessages = []
-  let promises = []
+  let promises: Promise<void>[] = []
   const roles = (await dbRole.findAll({
     attributes: ['roleId', 'name'],
     where: { isOnPanel: true },
@@ -60,10 +67,10 @@ const createPanel = async (manager, message: Message): Promise<void> => {
 
 export const finish = async (message: Message, emoji: Emoji): Promise<void> => {
   if (emoji.toString() !== OK) return
-  const manager = await Manager.findOne({
+  const manager = (await Manager.findOne({
     attributes: ['id', 'startMessageId', 'creatingMessageIds'],
     where: { finishMessageId: message.id },
-  })
+  })) as dbManager
   await deleteCreatingMessages(manager, message)
   await createPanel(manager, message)
 }
